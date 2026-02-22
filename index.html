@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,27 +102,86 @@ h2 {
   opacity: 0.95;
 }
 
-
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 15px;
 }
 
+/* ─── HERO BUTTONS (Contact Me, GitHub, LinkedIn) ─── */
 .buttons a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   margin-right: 12px;
+  margin-top: 8px;
   padding: 8px 16px;
   border: 1px solid #58a6ff;
   border-radius: 6px;
   color: #58a6ff;
   font-size: 0.9rem;
-  transition: 0.3s;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
 }
 
 .buttons a:hover {
   background: #58a6ff;
   color: #0f1117;
+}
+
+/* ─── GITHUB REPO BUTTONS ─── */
+.gh-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 9px 18px !important;
+  background: transparent;
+  border: 1px solid #30363d !important;
+  border-radius: 6px;
+  color: #e6edf3 !important;
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.gh-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(88, 166, 255, 0.07);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.gh-btn:hover {
+  background: transparent !important;
+  color: #58a6ff !important;
+  border-color: #58a6ff !important;
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.18) !important;
+}
+
+.gh-btn:hover::before {
+  opacity: 1;
+}
+
+.gh-btn svg {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.2s;
+}
+
+.gh-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.gh-btn span {
+  position: relative;
+  z-index: 1;
 }
 
 footer {
@@ -169,6 +225,13 @@ footer {
   </div>
 </section>
 
+<!-- SVG del ícono de GitHub (reutilizable) -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  </symbol>
+</svg>
+
 <!-- PROJECTS -->
 <section id="projects">
   <h2>Projects and Applied Research</h2>
@@ -191,9 +254,12 @@ footer {
       82% accuracy. Interactive dashboards using Plotly & Folium.
       GeoPandas & QGIS geospatial analysis.
     </p>
-      <div class="buttons">
-    <a href="https://github.com/Observatorio-Ciudades/odc" target="_blank">GitHub Repo</a>
-
+    <div class="buttons">
+      <a class="gh-btn" href="https://github.com/Observatorio-Ciudades/odc" target="_blank">
+        <svg width="15" height="15"><use href="#icon-github"/></svg>
+        <span>GitHub Repo</span>
+      </a>
+    </div>
   </div>
 
   <!-- WALKABILITY PROJECT -->
@@ -212,15 +278,15 @@ footer {
 
     <p>The project introduces a novel Walkability Index integrating:</p>
 
-      <ul>
-        <li>Population density</li>
-        <li>Intersection density</li>
-        <li>Land-use mix</li>
-        <li>Vegetation index</li>
-        <li>Slopes</li>
-        <li>Sidewalk presence</li>
-        <li>Citizen perception surveys</li>
-      </ul>
+    <ul>
+      <li>Population density</li>
+      <li>Intersection density</li>
+      <li>Land-use mix</li>
+      <li>Vegetation index</li>
+      <li>Slopes</li>
+      <li>Sidewalk presence</li>
+      <li>Citizen perception surveys</li>
+    </ul>
 
     <p>
       Combines objective urban indicators with subjective pedestrian perception
@@ -228,11 +294,12 @@ footer {
     </p>
 
     <div class="buttons">
-    <a href="https://walkability-vs-proximity.streamlit.app/" target="_blank">GitHub Repo</a>
-    </a>
+      <a class="gh-btn" href="https://walkability-vs-proximity.streamlit.app/" target="_blank">
+        <svg width="15" height="15"><use href="#icon-github"/></svg>
+        <span>GitHub Repo</span>
+      </a>
     </div>
   </div>
-
 
   <div class="card">
     <img src="images/llm-feature-selection.png" class="project-img" alt="LLM Feature Selection">
@@ -244,7 +311,8 @@ footer {
       Accuracy range: 78–80%.
     </p>
   </div>
-   <!-- CORAI-AI PROJECT -->
+
+  <!-- CORAI-AI PROJECT -->
   <div class="card">
     <img src="images/corai.png" class="project-img" alt="AFDB Classification">
     <h3>CorAI-AI — AFDB Supervised Rhythm Classification</h3>
@@ -263,13 +331,13 @@ footer {
 
     <p>Key components:</p>
 
-      <ul>
-        <li>Advanced ECG feature extraction (temporal, HRV, QRS morphology, wavelets)</li>
-        <li>R-peak detection (Pan-Tompkins inspired) </li>
-        <li>RandomForest classifier with balanced weights</li>
-        <li>75/25 stratified split</li>
-        <li>Feature importance analysis & PCA visualization</li>
-      </ul>
+    <ul>
+      <li>Advanced ECG feature extraction (temporal, HRV, QRS morphology, wavelets)</li>
+      <li>R-peak detection (Pan-Tompkins inspired)</li>
+      <li>RandomForest classifier with balanced weights</li>
+      <li>75/25 stratified split</li>
+      <li>Feature importance analysis & PCA visualization</li>
+    </ul>
 
     <p>
       Designed for reproducible research using both streaming PhysioNet access
@@ -277,15 +345,14 @@ footer {
     </p>
 
     <div class="buttons">
-  <a href="https://github.com/SaraRiveraMendez/CorAI-AI" target="_blank">GitHub Repo</a>
-  </div>
-    
+      <a class="gh-btn" href="https://github.com/SaraRiveraMendez/CorAI-AI" target="_blank">
+        <svg width="15" height="15"><use href="#icon-github"/></svg>
+        <span>GitHub Repo</span>
+      </a>
+    </div>
   </div>
 
-    
 </section>
-
-    
 
 <!-- SKILLS -->
 <section id="skills">
