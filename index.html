@@ -1,222 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sara Rivera Méndez | Data Science & ML</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Sara Rivera Méndez | Data Science & ML</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0f1117;
-      color: #e6edf3;
-      line-height: 1.6;
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  color: #e6edf3;
+  background: linear-gradient(-45deg, #0f1117, #111827, #0b0f1a, #161b22);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  line-height: 1.6;
+}
 
-    a {
-      text-decoration: none;
-      color: #58a6ff;
-    }
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    section {
-      padding: 80px 10%;
-    }
+/* NAVBAR */
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: rgba(15,17,23,0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px 10%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+}
 
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-    }
+nav a {
+  color: #58a6ff;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
 
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #58a6ff;
-    }
+nav a:hover {
+  color: white;
+}
 
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
+section {
+  padding: 100px 10%;
+  min-height: 100vh;
+}
 
-    p {
-      margin-bottom: 15px;
-      color: #c9d1d9;
-    }
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #58a6ff;
+}
 
-    .subtitle {
-      font-size: 1.2rem;
-      color: #8b949e;
-      margin-top: 15px;
-      margin-bottom: 30px;
-    }
+.subtitle {
+  color: #8b949e;
+  margin: 20px 0;
+  font-size: 1.2rem;
+}
 
-    .buttons a {
-      display: inline-block;
-      margin-right: 15px;
-      padding: 10px 20px;
-      border: 1px solid #58a6ff;
-      border-radius: 6px;
-      transition: 0.3s;
-    }
+.buttons a {
+  display: inline-block;
+  margin-right: 15px;
+  padding: 10px 20px;
+  border: 1px solid #58a6ff;
+  border-radius: 6px;
+  color: #58a6ff;
+  transition: 0.3s;
+}
 
-    .buttons a:hover {
-      background-color: #58a6ff;
-      color: #0f1117;
-    }
+.buttons a:hover {
+  background: #58a6ff;
+  color: #0f1117;
+}
 
-    .card {
-      background-color: #161b22;
-      padding: 25px;
-      border-radius: 8px;
-      margin-bottom: 25px;
-      transition: 0.3s;
-    }
+.card {
+  background: rgba(22,27,34,0.8);
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  transition: 0.3s;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+.card:hover {
+  transform: translateY(-5px);
+}
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
+.project-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  opacity: 0.9;
+}
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      background-color: #0d1117;
-      color: #8b949e;
-    }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
 
-    @media (max-width: 768px) {
-      section {
-        padding: 60px 7%;
-      }
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #8b949e;
+}
 
-      h1 {
-        font-size: 2.2rem;
-      }
-    }
-  </style>
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>Sara Rivera Méndez</h1>
-    <p class="subtitle">
-      Data Science, Machine Learning & Computer Vision Engineer
+<nav>
+  <div><strong>Sara Rivera</strong></div>
+  <div>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="about">
+  <h1>Sara Rivera Méndez</h1>
+  <p class="subtitle">
+    Data Science, Machine Learning & Computer Vision Engineer
+  </p>
+
+  <p>
+    Data Science and Mathematics Engineering student with experience in
+    deep learning pipelines, LLM-based feature selection research,
+    and geospatial machine learning for real-world policy applications.
+  </p>
+
+  <div class="buttons">
+    <a href="mailto:rsaracontacto@gmail.com">Contact Me</a>
+    <a href="https://github.com/SaraRiveraMendez" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/sara-rivera-méndez-972a62290" target="_blank">LinkedIn</a>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2>Projects and Applied Research</h2>
+
+  <div class="card">
+    <img src="images/furniture-detection.png" class="project-img" alt="Furniture Detection">
+    <h3>Multi-Class Furniture Detection (YOLOv12)</h3>
+    <p>
+      Computer vision pipeline using PyTorch & Ultralytics.
+      411-image dataset. 71% classification accuracy.
+      Reproducible Linux-based training workflow.
+    </p>
+  </div>
+
+  <div class="card">
+    <img src="images/land-use.png" class="project-img" alt="Land Use Classification">
+    <h3>Urban Land-Use Classification & Socio-Spatial Analysis</h3>
+    <p>
+      ML models for urban policy applications.
+      82% accuracy. Interactive dashboards using Plotly & Folium.
+      GeoPandas & QGIS geospatial analysis.
+    </p>
+  </div>
+
+  <!-- WALKABILITY PROJECT -->
+  <div class="card">
+    <img src="images/walkability.png" class="project-img" alt="Walkability App">
+    <h3>Walkability vs Proximity — Urban Mobility Research</h3>
+    <p>
+      International research collaboration between Tecnológico de Monterrey (Mexico)
+      and Universidad EAFIT (Colombia), funded by Volvo Research and Educational Foundations (VREF).
     </p>
 
     <p>
-      Data Science and Mathematics Engineering student with experience in
-      deep learning pipelines, LLM-based feature selection research, and
-      geospatial machine learning for real-world policy applications.
+      Developed both frontend design and backend data exploration modules for an
+      interactive Streamlit application measuring urban walkability in Medellín and Guadalajara.
+    </p>
+
+    <p>
+      The project introduces a novel Walkability Index integrating:
+      • Population density  
+      • Intersection density  
+      • Land-use mix  
+      • Vegetation index  
+      • Slopes  
+      • Sidewalk presence  
+      • Citizen perception surveys  
+    </p>
+
+    <p>
+      Combines objective urban indicators with subjective pedestrian perception
+      to better understand mobility decisions in Latin American cities.
     </p>
 
     <div class="buttons">
-      <a href="mailto:rsaracontacto@gmail.com">Contact Me</a>
-      <a href="https://github.com/SaraRiveraMendez" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/sara-rivera-méndez-972a62290" target="_blank">LinkedIn</a>
+      <a href="https://walkability-vs-proximity.streamlit.app/" target="_blank">
+        Live Application
+      </a>
     </div>
-  </section>
+  </div>
 
-  <!-- PROJECTS -->
-  <section>
-    <h2>Featured Projects</h2>
+  <div class="card">
+    <img src="images/llm-feature-selection.png" class="project-img" alt="LLM Feature Selection">
+    <h3>LLM-Based Feature Selection Research</h3>
+    <p>
+      +1.93% improvement over greedy baselines.
+      Benchmarked with MAFESE.
+      Privacy-preserving prompt engineering.
+      Accuracy range: 78–80%.
+    </p>
+  </div>
+</section>
+
+     <!-- CORAI-AI PROJECT -->
+  <div class="card">
+    <img src="images/corai.png" class="project-img" alt="AFDB Classification">
+    <h3>CorAI-AI — AFDB Supervised Rhythm Classification</h3>
+
+    <p>
+      End-to-end machine learning pipeline for supervised cardiac arrhythmia
+      classification using the MIT-BIH Atrial Fibrillation Database (AFDB).
+    </p>
+
+    <p>
+      Classified four rhythm types:
+      AFIB, AFL, AV Junctional (J), and Normal rhythms.
+    </p>
+
+    <p>
+      Key components:
+      • Advanced ECG feature extraction (temporal, HRV, QRS morphology, wavelets)  
+      • R-peak detection (Pan-Tompkins inspired)  
+      • RandomForest classifier with balanced weights  
+      • 75/25 stratified split  
+      • Feature importance analysis & PCA visualization  
+    </p>
+
+    <p>
+      Designed for reproducible research using both streaming PhysioNet access
+      and local file modes.
+    </p>
+  </div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <h2>Technical Skills</h2>
+
+  <div class="skills-grid">
+    <div class="card">
+      <h3>Machine Learning & Deep Learning</h3>
+      <p>PyTorch, TensorFlow, Scikit-learn, YOLO</p>
+    </div>
 
     <div class="card">
-      <h3>Multi-Class Furniture Detection (YOLOv12)</h3>
-      <p>
-        Developed a computer vision pipeline using PyTorch and Ultralytics YOLOv12
-        for multi-class furniture detection on plant layout images.
-      </p>
-      <p>
-        • Built and annotated a 411-image dataset<br>
-        • Achieved 71% classification accuracy<br>
-        • Implemented preprocessing & augmentation pipelines<br>
-        • Reproducible Linux-based training workflow
-      </p>
+      <h3>Data Science</h3>
+      <p>Python, Pandas, NumPy, SQL, MATLAB, R</p>
     </div>
 
     <div class="card">
-      <h3>Urban Land-Use Classification & Socio-Spatial Analysis</h3>
-      <p>
-        Machine learning models for land-use classification supporting
-        urban policy decision-making.
-      </p>
-      <p>
-        • Achieved 82% model accuracy<br>
-        • Built interactive dashboards with Plotly & Folium<br>
-        • Geospatial analysis using GeoPandas & QGIS
-      </p>
+      <h3>Geospatial & Visualization</h3>
+      <p>GeoPandas, QGIS, Plotly, Matplotlib, Tableau</p>
     </div>
 
     <div class="card">
-      <h3>LLM-Based Feature Selection Research</h3>
-      <p>
-        Evaluated Large Language Models for feature selection compared
-        to traditional greedy correlation baselines.
-      </p>
-      <p>
-        • +1.93% accuracy improvement over baseline<br>
-        • Benchmarked with MAFESE library<br>
-        • Explored privacy-preserving prompt design<br>
-        • Accuracy range: 78–80%
-      </p>
+      <h3>Tools & Platforms</h3>
+      <p>GitHub, Linux, Docker, AWS, Google Colab</p>
     </div>
+  </div>
+</section>
 
-  </section>
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: rsaracontacto@gmail.com</p>
+  <p>GitHub: github.com/SaraRiveraMendez</p>
+  <p>LinkedIn: linkedin.com/in/sara-rivera-méndez-972a62290</p>
+</section>
 
-  <!-- SKILLS -->
-  <section>
-    <h2>Technical Skills</h2>
-
-    <div class="skills-grid">
-      <div class="card">
-        <h3>Machine Learning & Deep Learning</h3>
-        <p>PyTorch, TensorFlow, Scikit-learn, YOLO (Ultralytics)</p>
-      </div>
-
-      <div class="card">
-        <h3>Data Science</h3>
-        <p>Python, Pandas, NumPy, SQL, MATLAB, R</p>
-      </div>
-
-      <div class="card">
-        <h3>Visualization & Geospatial</h3>
-        <p>Matplotlib, Plotly, GeoPandas, QGIS, Tableau</p>
-      </div>
-
-      <div class="card">
-        <h3>Tools & Platforms</h3>
-        <p>GitHub, Linux, Docker, AWS, Google Colab, VSCode</p>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2026 Sara Rivera Méndez — Data Science & Machine Learning
-  </footer>
+<footer>
+  © 2026 Sara Rivera Méndez — Data Science & Machine Learning
+</footer>
 
 </body>
 </html>
