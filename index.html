@@ -4,395 +4,838 @@
 <meta charset="UTF-8">
 <title>Sara Rivera Méndez | Data Science & ML</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:        #0c0d0f;
+  --surface:   #111316;
+  --border:    #1e2126;
+  --border-hi: #2e3440;
+  --text:      #dde1e7;
+  --muted:     #6b7280;
+  --accent:    #a8c5f0;
+  --accent-dim:#3a5a8a;
+  --serif:     'Fraunces', Georgia, serif;
+  --mono:      'DM Mono', monospace;
 }
 
-ul {
-  margin: 10px 0 15px 20px;
+/* ── RESET ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 14px;
+  overflow-x: hidden;
 }
 
-li {
+/* Subtle grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 7%;
+  background: rgba(12,13,15,0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 32px; }
+
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.25s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ── SECTIONS ───────────────────────────────────── */
+section { padding: 120px 7% 80px; }
+
+/* ── HERO ───────────────────────────────────────── */
+#about {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 140px;
+  position: relative;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.1s forwards;
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.hero-role {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.35s forwards;
+}
+
+.hero-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--border-hi);
+  margin: 36px 0;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.45s forwards;
+}
+
+.hero-bio {
+  font-size: 13.5px;
+  color: var(--muted);
+  max-width: 580px;
+  line-height: 1.85;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.55s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.65s forwards;
+}
+
+/* hero primary button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: 0 0 20px rgba(168,197,240,0.12);
+}
+
+/* hero ghost button */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid var(--border-hi);
+  transition: color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+/* ── SECTION HEADER ─────────────────────────────── */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 60px;
+}
+
+/* ── EXPERIENCE ─────────────────────────────────── */
+#experience { border-top: 1px solid var(--border); }
+
+.exp-list { display: flex; flex-direction: column; gap: 0; }
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0 48px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.exp-item.visible { opacity: 1; transform: translateY(0); }
+
+.exp-meta {
+  padding-top: 3px;
+}
+
+.exp-date {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
   margin-bottom: 6px;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  color: #e6edf3;
-  background: linear-gradient(-45deg, #0f1117, #111827, #0b0f1a, #161b22);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
-  line-height: 1.5;
+.exp-tag {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--border-hi);
+  border-radius: 2px;
+  color: var(--muted);
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.exp-role {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
 }
 
-nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  background: rgba(15,17,23,0.85);
-  backdrop-filter: blur(10px);
-  padding: 12px 8%;
+.exp-org {
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.exp-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+.exp-bullets {
+  list-style: none;
+  margin-top: 12px;
   display: flex;
-  justify-content: space-between;
-  z-index: 1000;
+  flex-direction: column;
+  gap: 8px;
 }
 
-nav a {
-  color: #58a6ff;
-  margin-left: 18px;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
+.exp-bullets li {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  padding-left: 16px;
+  position: relative;
+}
+.exp-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--border-hi);
 }
 
-section {
-  padding: 50px 8%;
-  min-height: auto;
-}
+/* ── PROJECTS ───────────────────────────────────── */
+#projects { border-top: 1px solid var(--border); }
 
-h1 {
-  font-size: 2.8rem;
-  font-weight: 700;
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 25px;
-  color: #58a6ff;
-}
-
-.subtitle {
-  color: #8b949e;
-  margin: 15px 0 25px 0;
-  font-size: 1.1rem;
-}
-
-.card {
-  background: rgba(22,27,34,0.85);
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.project-img {
-  width: 60%;
-  max-width: 500px;
-  height: auto;
-  display: block;
-  margin: 0 auto 15px auto;
-  border-radius: 6px;
-  opacity: 0.95;
-}
-
-.skills-grid {
+.projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-/* ─── HERO BUTTONS (Contact Me, GitHub, LinkedIn) ─── */
-.buttons a {
+.proj-card {
+  background: var(--surface);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background 0.2s;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.5s, background 0.2s;
+}
+.proj-card.visible { opacity: 1; transform: translateY(0); }
+.proj-card:hover { background: #141619; }
+
+.proj-number {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--border-hi);
+  font-weight: 500;
+}
+
+.proj-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--border-hi);
+  border-radius: 2px;
+  color: var(--muted);
+}
+
+.proj-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  flex: 1;
+}
+
+.proj-stat {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.proj-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* repo button inside project card */
+.gh-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  margin-right: 12px;
-  margin-top: 8px;
-  padding: 8px 16px;
-  border: 1px solid #58a6ff;
-  border-radius: 6px;
-  color: #58a6ff;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background 0.25s, color 0.25s;
-}
-
-.buttons a:hover {
-  background: #58a6ff;
-  color: #0f1117;
-}
-
-/* ─── GITHUB REPO BUTTONS ─── */
-.gh-btn {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 9px 18px !important;
-  background: transparent;
-  border: 1px solid #30363d !important;
-  border-radius: 6px;
-  color: #e6edf3 !important;
-  font-size: 0.85rem !important;
+  padding: 7px 14px;
+  font-family: var(--mono);
+  font-size: 10px;
   font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
   text-decoration: none;
+  border: 1px solid var(--border-hi);
+  border-radius: 3px;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
   position: relative;
   overflow: hidden;
-  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s !important;
 }
-
 .gh-btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(88, 166, 255, 0.07);
+  background: rgba(168,197,240,0.04);
   opacity: 0;
   transition: opacity 0.2s;
 }
-
 .gh-btn:hover {
-  background: transparent !important;
-  color: #58a6ff !important;
-  border-color: #58a6ff !important;
-  box-shadow: 0 0 12px rgba(88, 166, 255, 0.18) !important;
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 12px rgba(168,197,240,0.08);
+}
+.gh-btn:hover::before { opacity: 1; }
+.gh-btn svg { position: relative; z-index: 1; flex-shrink: 0; transition: transform 0.2s; }
+.gh-btn span { position: relative; z-index: 1; }
+.gh-btn:hover svg { transform: scale(1.1); }
+
+/* ── SKILLS ─────────────────────────────────────── */
+#skills { border-top: 1px solid var(--border); }
+
+.skills-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.skills-table tr {
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.skills-table tr.visible { opacity: 1; transform: translateY(0); }
+.skills-table tr:hover td { color: var(--text); }
+.skills-table td {
+  padding: 20px 0;
+  font-size: 13px;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.skills-table td:first-child {
+  width: 200px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+.skills-table td:last-child {
+  color: var(--muted);
+  line-height: 1.6;
 }
 
-.gh-btn:hover::before {
-  opacity: 1;
+/* ── CONTACT ─────────────────────────────────────── */
+#contact { border-top: 1px solid var(--border); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 680px;
 }
 
-.gh-btn svg {
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.2s;
+.contact-item {
+  background: var(--surface);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.contact-item:hover { background: #141619; }
+
+.contact-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
-.gh-btn:hover svg {
-  transform: scale(1.1);
+.contact-value {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text);
+  word-break: break-all;
 }
 
-.gh-btn span {
-  position: relative;
-  z-index: 1;
+.contact-arrow {
+  margin-top: 8px;
+  font-size: 18px;
+  color: var(--border-hi);
+  transition: color 0.2s, transform 0.2s;
+  display: inline-block;
+}
+.contact-item:hover .contact-arrow {
+  color: var(--accent);
+  transform: translate(3px, -3px);
 }
 
+/* ── FOOTER ─────────────────────────────────────── */
 footer {
-  text-align: center;
-  padding: 30px;
-  color: #8b949e;
-  font-size: 0.85rem;
+  padding: 40px 7%;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-copy {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.footer-back {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-back:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ─────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 640px) {
+  section { padding: 100px 6% 60px; }
+  nav { padding: 16px 6%; }
+  .nav-links { gap: 18px; }
+  .exp-item { grid-template-columns: 1fr; gap: 12px; }
+  .exp-meta { display: flex; align-items: center; gap: 12px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 
+<!-- SVG sprite -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="gh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  </symbol>
+</svg>
+
 <body>
 
 <nav>
-  <div><strong>Sara Rivera</strong></div>
-  <div>
-    <a href="#about">About</a>
+  <a class="nav-logo" href="#about">SRM</a>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
     <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section id="about">
-  <h1>Sara Rivera Méndez</h1>
-  <p class="subtitle">
-    Data Science Engineer | Machine Learning & Computer Vision 
+  <p class="hero-eyebrow">Data Science &amp; Machine Learning</p>
+  <h1 class="hero-name">Sara Rivera<br><em>Méndez</em></h1>
+  <p class="hero-role">B.Sc. in Data Science and Mathematics Engineering<br>Tecnológico de Monterrey — GPA 91.34 / 100</p>
+  <div class="hero-divider"></div>
+  <p class="hero-bio">
+    Engineering student with experience in deep learning pipelines, LLM-based feature selection research, and geospatial machine learning for real-world policy applications.
   </p>
-
-  <p>
-    Data Science and Mathematics Engineering student with experience in
-    deep learning pipelines, LLM-based feature selection research,
-    and geospatial machine learning for real-world policy applications.
-  </p>
-
-
-  <div class="buttons">
-    <a href="mailto:rsaracontacto@gmail.com">Contact Me</a>
-    <a href="https://github.com/SaraRiveraMendez" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/sara-rivera-méndez-972a62290" target="_blank">LinkedIn</a>
+  <div class="hero-actions">
+    <a class="btn-primary" href="mailto:rsaracontacto@gmail.com">Contact me</a>
+    <a class="btn-ghost" href="https://github.com/SaraRiveraMendez" target="_blank">GitHub</a>
+    <a class="btn-ghost" href="https://linkedin.com/in/sara-rivera-méndez-972a62290" target="_blank">LinkedIn</a>
   </div>
 </section>
 
-<!-- SVG del ícono de GitHub (reutilizable) -->
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-  </symbol>
-</svg>
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <p class="section-label">Work & Research</p>
+  <h2 class="section-title">Experience</h2>
 
-<!-- PROJECTS -->
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <p class="exp-date">Aug – Nov 2025</p>
+        <span class="exp-tag">Industry</span>
+      </div>
+      <div>
+        <h3 class="exp-role">Junior ML Developer</h3>
+        <p class="exp-org">NORNORM — Stockholm, Sweden</p>
+        <ul class="exp-bullets">
+          <li>Developed a computer vision pipeline using Python, Roboflow and YOLOv12 for multi-class furniture detection on plant layout images — 71% classification accuracy.</li>
+          <li>Built and curated a 411-image dataset with annotation, preprocessing and augmentation to improve model robustness.</li>
+          <li>Trained and evaluated deep learning models, optimizing architecture and hyperparameters using Linux, GitHub and VS Code for reproducible workflows.</li>
+          <li>Created graphical representations of neural network outputs to qualitatively assess learning and validate performance.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <p class="exp-date">Aug 2024 – Jul 2025</p>
+        <span class="exp-tag">Research</span>
+      </div>
+      <div>
+        <h3 class="exp-role">On-Campus Research Intern</h3>
+        <p class="exp-org">City Observatory (OdC) — Tec de Monterrey</p>
+        <ul class="exp-bullets">
+          <li>Developed ML models in Python for land-use classification and socio-spatial analysis, reaching 82% accuracy.</li>
+          <li>Built interactive geospatial dashboards with Plotly, Folium and QGIS for municipal policy reports.</li>
+          <li>Designed both frontend and backend modules for a Streamlit app measuring urban walkability in Medellín and Guadalajara.</li>
+          <li>Improved documentation for Voronoi Polygon generation for spatial data across multiple Mexican cities.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <p class="exp-date">Oct 2024 – Present</p>
+        <span class="exp-tag">Research</span>
+      </div>
+      <div>
+        <h3 class="exp-role">Research Collaborator</h3>
+        <p class="exp-org">LLM-Based Feature Selection — Tec de Monterrey</p>
+        <ul class="exp-bullets">
+          <li>Helped design experiments for an iterative privacy-preserving feature selection framework using only correlation metadata.</li>
+          <li>Evaluated LLMs vs. traditional methods — showed +1.93% average accuracy improvement over greedy baselines.</li>
+          <li>Benchmarked strategies with MAFESE, analyzing performance-computation trade-offs; accuracy range 78–80%.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
 <section id="projects">
-  <h2>Projects and Applied Research</h2>
+  <p class="section-label">Applied Research</p>
+  <h2 class="section-title">Projects</h2>
 
-  <div class="card">
-    <img src="images/furniture-detection.png" class="project-img" alt="Furniture Detection">
-    <h3>Multi-Class Furniture Detection (YOLOv12)</h3>
-    <ul>
-      <li>Computer vision pipeline using Roboflow, PyTorch & Ultralytics</li>
-      <li>411-image dataset. 71% classification accuracy</li>
-      <li>Reproducible Linux-based training workflow</li>
-    </ul>
-  </div>
+  <div class="projects-grid">
 
-  <div class="card">
-    <img src="images/land-use.png" class="project-img" alt="Land Use Classification">
-    <h3>Urban Land-Use Classification & Socio-Spatial Analysis</h3>
-    <ul>
-      <li>ML models for urban policy applications with 82% accuracy</li>
-      <li>Interactive dashboards using Plotly & Folium</li>
-      <li>GeoPandas & QGIS geospatial analysis</li>
-    </ul>
-    <div class="buttons">
-      <a class="gh-btn" href="https://github.com/Observatorio-Ciudades/odc" target="_blank">
-        <svg width="15" height="15"><use href="#icon-github"/></svg>
-        <span>GitHub Repo</span>
-      </a>
+    <div class="proj-card">
+      <p class="proj-number">01</p>
+      <h3 class="proj-title">Multi-Class Furniture Detection</h3>
+      <div class="proj-tags">
+        <span class="tag">YOLOv12</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">Computer Vision</span>
+      </div>
+      <p class="proj-desc">Computer vision pipeline using Ultralytics & PyTorch for detecting furniture on plant layout images. 411-image dataset with custom annotation and augmentation. Reproducible Linux-based training workflow.</p>
+      <p class="proj-stat">71% classification accuracy</p>
+      <div class="proj-footer">
+        <span style="font-size:11px;color:var(--muted);">NORNORM · 2025</span>
+      </div>
     </div>
-  </div>
 
-  <!-- WALKABILITY PROJECT -->
-  <div class="card">
-    <img src="images/walkability.png" class="project-img" alt="Walkability App">
-    <h3>Walkability vs Proximity — Urban Mobility Research</h3>
-    <p>
-      International research collaboration between Tecnológico de Monterrey (Mexico)
-      and Universidad EAFIT (Colombia), funded by Volvo Research and Educational Foundations (VREF).
-    </p>
-
-    <p>
-      Developed both frontend design and backend data exploration modules for an
-      interactive Streamlit application measuring urban walkability in Medellín and Guadalajara.
-    </p>
-
-    <p>The project introduces a novel Walkability Index integrating:</p>
-
-    <ul>
-      <li>Population density</li>
-      <li>Intersection density</li>
-      <li>Land-use mix</li>
-      <li>Vegetation index</li>
-      <li>Slopes</li>
-      <li>Sidewalk presence</li>
-      <li>Citizen perception surveys</li>
-    </ul>
-
-    <p>
-      Combines objective urban indicators with subjective pedestrian perception
-      to better understand mobility decisions in Latin American cities.
-    </p>
-
-    <div class="buttons">
-      <a class="gh-btn" href="https://walkability-vs-proximity.streamlit.app/" target="_blank">
-        <svg width="15" height="15"><use href="#icon-github"/></svg>
-        <span>GitHub Repo</span>
-      </a>
+    <div class="proj-card">
+      <p class="proj-number">02</p>
+      <h3 class="proj-title">Urban Land-Use Classification & Socio-Spatial Analysis</h3>
+      <div class="proj-tags">
+        <span class="tag">GeoPandas</span>
+        <span class="tag">QGIS</span>
+        <span class="tag">Plotly</span>
+      </div>
+      <p class="proj-desc">ML models for urban policy applications. Interactive dashboards visualizing quality-of-life indicators across Mexican cities. Geospatial analysis with GeoPandas & QGIS.</p>
+      <p class="proj-stat">82% accuracy</p>
+      <div class="proj-footer">
+        <a class="gh-btn" href="https://github.com/Observatorio-Ciudades/odc" target="_blank">
+          <svg width="13" height="13"><use href="#gh"/></svg><span>Repo</span>
+        </a>
+        <span style="font-size:11px;color:var(--muted);">OdC · 2024–25</span>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <img src="images/llm-feature-selection.png" class="project-img" alt="LLM Feature Selection">
-    <h3>LLM-Based Feature Selection Research</h3>
-    <ul>
-      <li>+1.93% improvement over greedy baselines</li>
-      <li>Benchmarked with MAFESE</li>
-      <li>Privacy-preserving prompt engineering</li>
-      <li>Accuracy range: 78–80%</li>
-    </ul>
-  </div>
-
-  <!-- CORAI-AI PROJECT -->
-  <div class="card">
-    <img src="images/corai.png" class="project-img" alt="AFDB Classification">
-    <h3>CorAI-AI — AFDB Supervised Rhythm Classification</h3>
-
-    <p><strong>Tech:</strong> Python, Scikit-learn, PhysioNet, RandomForest</p>
-
-    <p>
-      End-to-end machine learning pipeline for supervised cardiac arrhythmia
-      classification using the MIT-BIH Atrial Fibrillation Database (AFDB).
-    </p>
-
-    <p>
-      Classified four rhythm types:
-      AFIB, AFL, AV Junctional (J), and Normal rhythms.
-    </p>
-
-    <p>Key components:</p>
-
-    <ul>
-      <li>Advanced ECG feature extraction (temporal, HRV, QRS morphology, wavelets)</li>
-      <li>R-peak detection (Pan-Tompkins inspired)</li>
-      <li>RandomForest classifier with balanced weights</li>
-      <li>75/25 stratified split</li>
-      <li>Feature importance analysis & PCA visualization</li>
-    </ul>
-
-    <p>
-      Designed for reproducible research using both streaming PhysioNet access
-      and local file modes.
-    </p>
-
-    <div class="buttons">
-      <a class="gh-btn" href="https://github.com/SaraRiveraMendez/CorAI-AI" target="_blank">
-        <svg width="15" height="15"><use href="#icon-github"/></svg>
-        <span>GitHub Repo</span>
-      </a>
+    <div class="proj-card">
+      <p class="proj-number">03</p>
+      <h3 class="proj-title">Walkability vs Proximity — Urban Mobility</h3>
+      <div class="proj-tags">
+        <span class="tag">Streamlit</span>
+        <span class="tag">Python</span>
+        <span class="tag">VREF</span>
+      </div>
+      <p class="proj-desc">International collaboration (Tec de Monterrey × EAFIT, funded by Volvo Research). Walkability Index integrating population density, intersection density, land-use mix, vegetation, slopes, sidewalk presence and citizen surveys for Medellín & Guadalajara.</p>
+      <div class="proj-footer">
+        <a class="gh-btn" href="https://walkability-vs-proximity.streamlit.app/" target="_blank">
+          <svg width="13" height="13"><use href="#gh"/></svg><span>Repo</span>
+        </a>
+        <span style="font-size:11px;color:var(--muted);">2024–25</span>
+      </div>
     </div>
-  </div>
 
+    <div class="proj-card">
+      <p class="proj-number">04</p>
+      <h3 class="proj-title">LLM-Based Feature Selection Research</h3>
+      <div class="proj-tags">
+        <span class="tag">LLMs</span>
+        <span class="tag">MAFESE</span>
+        <span class="tag">Privacy</span>
+      </div>
+      <p class="proj-desc">Iterative framework for feature selection using only correlation metadata — separating AI reasoning from sensitive feature names. Benchmarked against greedy baselines and MAFESE.</p>
+      <p class="proj-stat">+1.93% over greedy baseline · 78–80% accuracy</p>
+      <div class="proj-footer">
+        <span style="font-size:11px;color:var(--muted);">Ongoing · 2024</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <p class="proj-number">05</p>
+      <h3 class="proj-title">CorAI-AI — Cardiac Arrhythmia Classification</h3>
+      <div class="proj-tags">
+        <span class="tag">RandomForest</span>
+        <span class="tag">PhysioNet</span>
+        <span class="tag">ECG</span>
+      </div>
+      <p class="proj-desc">End-to-end ML pipeline for supervised arrhythmia classification on the MIT-BIH AFDB. Classifies AFIB, AFL, AV Junctional and Normal rhythms. Advanced ECG feature extraction including HRV, QRS morphology and wavelets. Pan-Tompkins R-peak detection.</p>
+      <div class="proj-footer">
+        <a class="gh-btn" href="https://github.com/SaraRiveraMendez/CorAI-AI" target="_blank">
+          <svg width="13" height="13"><use href="#gh"/></svg><span>Repo</span>
+        </a>
+        <span style="font-size:11px;color:var(--muted);">2025</span>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<!-- SKILLS -->
+<!-- ── SKILLS ── -->
 <section id="skills">
-  <h2>Technical Skills</h2>
+  <p class="section-label">Technical</p>
+  <h2 class="section-title">Skills</h2>
 
-  <div class="skills-grid">
-    <div class="card">
-      <h3>Machine Learning & Deep Learning</h3>
-      <p>PyTorch, TensorFlow, Scikit-learn, YOLO</p>
-    </div>
-
-    <div class="card">
-      <h3>Data Science</h3>
-      <p>Python, Pandas, NumPy, SQL, MATLAB, R</p>
-    </div>
-
-    <div class="card">
-      <h3>Geospatial & Visualization</h3>
-      <p>GeoPandas, QGIS, Plotly, Matplotlib, Tableau</p>
-    </div>
-
-    <div class="card">
-      <h3>Tools & Platforms</h3>
-      <p>GitHub, Linux, Docker, AWS, Google Colab, SQLite, MySQL</p>
-    </div>
-  </div>
+  <table class="skills-table">
+    <tbody>
+      <tr>
+        <td>ML & Deep Learning</td>
+        <td>PyTorch, TensorFlow, Scikit-learn, Ultralytics (YOLO), MAFESE</td>
+      </tr>
+      <tr>
+        <td>Data Science</td>
+        <td>Python, Pandas, NumPy, SQL, MATLAB, R, LaTeX</td>
+      </tr>
+      <tr>
+        <td>Geospatial & Viz</td>
+        <td>GeoPandas, QGIS, Plotly, Folium, Matplotlib, Seaborn, Tableau</td>
+      </tr>
+      <tr>
+        <td>Tools & Platforms</td>
+        <td>GitHub, Linux, Docker, AWS, Google Colab, Roboflow, VSCode, MySQL, SQLite</td>
+      </tr>
+      <tr>
+        <td>Languages</td>
+        <td>Spanish (Native) · English B2 — TOEFL iBT 91</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ── -->
 <section id="contact">
-  <h2>Contact</h2>
-  <p>Email: rsaracontacto@gmail.com</p>
-  <p>GitHub: github.com/SaraRiveraMendez</p>
-  <p>LinkedIn: linkedin.com/in/sara-rivera-méndez-972a62290</p>
+  <p class="section-label">Get in touch</p>
+  <h2 class="section-title">Contact</h2>
+
+  <div class="contact-grid">
+    <a class="contact-item" href="mailto:rsaracontacto@gmail.com">
+      <span class="contact-label">Email</span>
+      <span class="contact-value">rsaracontacto@gmail.com</span>
+      <span class="contact-arrow">↗</span>
+    </a>
+    <a class="contact-item" href="https://github.com/SaraRiveraMendez" target="_blank">
+      <span class="contact-label">GitHub</span>
+      <span class="contact-value">SaraRiveraMendez</span>
+      <span class="contact-arrow">↗</span>
+    </a>
+    <a class="contact-item" href="https://linkedin.com/in/sara-rivera-méndez-972a62290" target="_blank">
+      <span class="contact-label">LinkedIn</span>
+      <span class="contact-value">sara-rivera-méndez</span>
+      <span class="contact-arrow">↗</span>
+    </a>
+    <a class="contact-item" href="https://sarariveramendez.github.io/" target="_blank">
+      <span class="contact-label">Portfolio</span>
+      <span class="contact-value">sarariveramendez.github.io</span>
+      <span class="contact-arrow">↗</span>
+    </a>
+  </div>
 </section>
 
 <footer>
-  © 2026 Sara Rivera Méndez — Data Science & Machine Learning
+  <span class="footer-copy">© 2026 Sara Rivera Méndez</span>
+  <a class="footer-back" href="#about">Back to top ↑</a>
 </footer>
+
+<script>
+// Intersection Observer for scroll-reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      // stagger delay for siblings
+      const siblings = entry.target.parentElement.querySelectorAll(
+        '.exp-item, .proj-card, .skills-table tr'
+      );
+      let delay = 0;
+      siblings.forEach((el, idx) => { if (el === entry.target) delay = idx * 80; });
+      setTimeout(() => entry.target.classList.add('visible'), delay);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.exp-item, .proj-card, .skills-table tr').forEach(el => {
+  observer.observe(el);
+});
+</script>
 
 </body>
 </html>
